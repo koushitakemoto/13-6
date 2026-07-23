@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAKURA. – 飲食店サイト</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', 'Noto Sans JP', sans-serif; color: #1e1e1e; background: #fff; line-height: 1.6; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; border: none; transition: background .2s, color .2s, border-color .2s; }
+    .btn--dark { background: #2c2c2c; color: #fff; }
+    .btn--dark:hover { background: #444; }
+    .btn--outline { background: transparent; color: #757575; border: 1px solid #d9d9d9; }
+    .btn--outline:hover { border-color: #1e1e1e; color: #1e1e1e; }
+
+    /* Placeholder */
+    .img-placeholder { background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+
+    /* Badge */
+    .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+    .badge--orange { background: #fff4ed; color: #f37831; }
+    .badge--dark   { background: #2c2c2c; color: #fff; }
+    .badge--muted  { background: #f5f5f5; color: #757575; }
+
+    /* Navbar */
+    .navbar { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid #d9d9d9; }
+    .navbar__inner { height: 72px; display: flex; align-items: center; justify-content: space-between; }
+    .navbar__logo { font-size: 22px; font-weight: 700; color: #1e1e1e; text-decoration: none; transition: color .2s; }
+    .navbar__logo span { color: #f37831; }
+    .navbar__logo:hover { color: #f37831; }
+    .navbar__nav { display: flex; align-items: center; gap: 32px; }
+    .nav-link { background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 500; color: #757575; cursor: pointer; padding-bottom: 4px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+    .nav-link:hover { color: #1e1e1e; }
+    .nav-link.active { color: #1e1e1e; border-bottom-color: #f37831; }
+
+    /* Hero */
+    .hero { background: #f5f5f5; border-radius: 0 0 16px 16px; }
+    .hero__inner { display: flex; align-items: center; gap: 64px; padding: 96px 32px; max-width: 1280px; margin: 0 auto; }
+    .hero__text { flex: 1; }
+    .hero__eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: #f37831; margin-bottom: 16px; }
+    .hero__title { font-size: 48px; font-weight: 700; line-height: 1.15; color: #1e1e1e; margin-bottom: 24px; }
+    .hero__desc { font-size: 16px; color: #757575; line-height: 1.75; max-width: 460px; margin-bottom: 32px; }
+    .hero__image { flex-shrink: 0; width: 520px; }
+    .hero__image .img-placeholder { width: 100%; height: 360px; border-radius: 12px; }
+
+    /* Section */
+    .section { padding: 96px 0; }
+    .section__head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; }
+    .section__title { font-size: 32px; font-weight: 700; }
+
+    /* Card Grid */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .card { background: #fff; border-radius: 12px; border: 1px solid #d9d9d9; overflow: hidden; transition: box-shadow .2s; }
+    .card:hover { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+    .card__image { width: 100%; height: 200px; }
+    .card__body { padding: 24px; }
+    .card__body .badge { margin-bottom: 12px; }
+    .card__name { font-size: 18px; font-weight: 700; color: #1e1e1e; margin-bottom: 8px; }
+    .card__desc { font-size: 14px; color: #757575; line-height: 1.65; margin-bottom: 16px; }
+    .card__price { font-size: 18px; font-weight: 700; color: #f37831; }
+
+    /* Page title */
+    .page-title { font-size: 48px; font-weight: 700; margin-bottom: 48px; }
+
+    /* Filter */
+    .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+    .filter-btn { padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; font-family: inherit; cursor: pointer; background: #fff; color: #757575; border: 1px solid #d9d9d9; transition: background .2s, color .2s, border-color .2s; }
+    .filter-btn:hover { border-color: #2c2c2c; color: #1e1e1e; }
+    .filter-btn.active { background: #2c2c2c; color: #fff; border-color: #2c2c2c; }
+
+    /* Stores */
+    .store-list { display: flex; flex-direction: column; gap: 32px; }
+    .store-card { background: #f5f5f5; border-radius: 16px; padding: 32px; display: flex; gap: 32px; align-items: flex-start; }
+    .store-card__image { flex-shrink: 0; width: 240px; height: 180px; border-radius: 12px; }
+    .store-card__name { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+    .store-card__dl { display: grid; grid-template-columns: auto 1fr; column-gap: 32px; row-gap: 12px; font-size: 14px; }
+    .store-card__dl dt { color: #757575; font-weight: 500; }
+    .store-card__dl dd { color: #1e1e1e; }
+
+    /* News */
+    .news-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .news-card { background: #fff; border-radius: 12px; border: 1px solid #d9d9d9; overflow: hidden; display: flex; transition: box-shadow .2s; }
+    .news-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+    .news-card__image { flex-shrink: 0; width: 160px; }
+    .news-card__body { padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+    .news-card__meta { display: flex; align-items: center; gap: 12px; }
+    .news-card__meta time { font-size: 12px; color: #757575; }
+    .news-card__title { font-size: 16px; font-weight: 700; line-height: 1.4; }
+    .news-card__desc { font-size: 14px; color: #757575; line-height: 1.65; }
+
+    /* Footer */
+    .footer { background: #2c2c2c; color: #fff; margin-top: 96px; }
+    .footer__inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; padding: 64px 32px; max-width: 1280px; margin: 0 auto; }
+    .footer__logo { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .footer__logo span { color: #f37831; }
+    .footer__tagline { font-size: 14px; color: #b0b0b0; line-height: 1.75; }
+    .footer__label { font-size: 13px; font-weight: 600; color: #d9d9d9; margin-bottom: 16px; }
+    .footer__links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer__link { background: none; border: none; font-family: inherit; font-size: 14px; color: #b0b0b0; cursor: pointer; padding: 0; transition: color .2s; }
+    .footer__link:hover { color: #fff; }
+    .footer__hours { font-size: 14px; color: #b0b0b0; line-height: 1.75; }
+    .footer__bottom { border-top: 1px solid #444; text-align: center; padding: 24px; font-size: 12px; color: #757575; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero__inner { flex-direction: column; gap: 40px; }
+      .hero__image { width: 100%; }
+      .hero__image .img-placeholder { height: 260px; }
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
+      .news-grid { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+      .hero__title { font-size: 32px; }
+      .page-title { font-size: 32px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .store-card { flex-direction: column; }
+      .store-card__image { width: 100%; }
+      .navbar__nav { gap: 16px; }
+      .footer__inner { grid-template-columns: 1fr; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ナビゲーション -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="#" class="navbar__logo" data-nav="home">SAKURA<span>.</span></a>
+      <nav class="navbar__nav">
+        <button class="nav-link" data-nav="menu">メニュー</button>
+        <button class="nav-link" data-nav="stores">店舗情報</button>
+        <button class="nav-link" data-nav="news">お知らせ</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <main id="page-home" class="page active">
+    <section class="hero">
+      <div class="hero__inner">
+        <div class="hero__text">
+          <p class="hero__eyebrow">Campaign</p>
+          <h1 class="hero__title">キャンペーンa</h1>
+          <p class="hero__desc">夏限定の特別ランチセットを期間限定でご提供。サラダ・ドリンク付きでお得！</p>
+          <button class="btn btn--dark" data-nav="news">お知らせを見る &rarr;</button>
+        </div>
+        <div class="hero__image">
+          <div class="img-placeholder">🎉</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">おすすめ商品</h2>
+          <button class="btn btn--outline" data-nav="menu">メニューへ &rarr;</button>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <div class="img-placeholder card__image">🍱</div>
+            <div class="card__body">
+              <h3 class="card__name">商品a</h3>
+              <p class="card__desc">厳選素材を使ったシェフ自慢の一品。</p>
+              <p class="card__price">¥1,200</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="img-placeholder card__image">🥗</div>
+            <div class="card__body">
+              <h3 class="card__name">商品b</h3>
+              <p class="card__desc">季節の野菜と旬の魚介をあわせた定番メニュー。</p>
+              <p class="card__price">¥980</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="img-placeholder card__image">🍜</div>
+            <div class="card__body">
+              <h3 class="card__name">商品c</h3>
+              <p class="card__desc">毎朝仕入れる新鮮食材でつくるこだわりの料理。</p>
+              <p class="card__price">¥1,480</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MENU -->
+  <main id="page-menu" class="page">
+    <div class="container section">
+      <h1 class="page-title">メニュー</h1>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">すべて</button>
+        <button class="filter-btn" data-filter="lunch">ランチ</button>
+        <button class="filter-btn" data-filter="starter">前菜</button>
+        <button class="filter-btn" data-filter="main">メイン</button>
+        <button class="filter-btn" data-filter="dessert">デザート</button>
+      </div>
+      <div class="card-grid">
+        <article class="card menu-card" data-category="lunch">
+          <div class="img-placeholder card__image">🍱</div>
+          <div class="card__body"><span class="badge badge--orange">ランチ</span><h3 class="card__name">さくらランチ</h3><p class="card__desc">日替わり定食。サラダ・スープ付き。</p><p class="card__price">¥880</p></div>
+        </article>
+        <article class="card menu-card" data-category="starter">
+          <div class="img-placeholder card__image">🥗</div>
+          <div class="card__body"><span class="badge badge--orange">前菜</span><h3 class="card__name">季節の前菜盛り合わせ</h3><p class="card__desc">旬の食材を使った前菜5種盛り。</p><p class="card__price">¥680</p></div>
+        </article>
+        <article class="card menu-card" data-category="main">
+          <div class="img-placeholder card__image">🍝</div>
+          <div class="card__body"><span class="badge badge--orange">メイン</span><h3 class="card__name">シェフのおまかせパスタ</h3><p class="card__desc">毎日仕入れる旬素材のパスタ。</p><p class="card__price">¥1,200</p></div>
+        </article>
+        <article class="card menu-card" data-category="main">
+          <div class="img-placeholder card__image">🍗</div>
+          <div class="card__body"><span class="badge badge--orange">メイン</span><h3 class="card__name">グリルチキン定食</h3><p class="card__desc">ハーブ香るジューシーなグリルチキン。</p><p class="card__price">¥1,080</p></div>
+        </article>
+        <article class="card menu-card" data-category="main">
+          <div class="img-placeholder card__image">🐟</div>
+          <div class="card__body"><span class="badge badge--orange">メイン</span><h3 class="card__name">焼き魚定食</h3><p class="card__desc">その日のおすすめ魚を塩焼きで。</p><p class="card__price">¥980</p></div>
+        </article>
+        <article class="card menu-card" data-category="dessert">
+          <div class="img-placeholder card__image">🍰</div>
+          <div class="card__body"><span class="badge badge--orange">デザート</span><h3 class="card__name">デザートセット</h3><p class="card__desc">本日のスイーツ3種盛り合わせ。</p><p class="card__price">¥480</p></div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- STORES -->
+  <main id="page-stores" class="page">
+    <div class="container section">
+      <h1 class="page-title">店舗情報</h1>
+      <div class="store-list">
+        <article class="store-card">
+          <div class="img-placeholder store-card__image">🏪</div>
+          <div class="store-card__body">
+            <h2 class="store-card__name">店舗a – 渋谷店</h2>
+            <dl class="store-card__dl">
+              <dt>住所</dt><dd>東京都渋谷区渋谷1-2-3 渋谷ビル2F</dd>
+              <dt>営業時間</dt><dd>11:00 – 22:00（L.O. 21:30）</dd>
+              <dt>電話番号</dt><dd>03-1234-5678</dd>
+              <dt>アクセス</dt><dd>渋谷駅ハチ公口より徒歩3分</dd>
+            </dl>
+          </div>
+        </article>
+        <article class="store-card">
+          <div class="img-placeholder store-card__image">🏬</div>
+          <div class="store-card__body">
+            <h2 class="store-card__name">店舗b – 新宿店</h2>
+            <dl class="store-card__dl">
+              <dt>住所</dt><dd>東京都新宿区新宿3-4-5 新宿タワー1F</dd>
+              <dt>営業時間</dt><dd>11:00 – 23:00（L.O. 22:30）</dd>
+              <dt>電話番号</dt><dd>03-2345-6789</dd>
+              <dt>アクセス</dt><dd>新宿駅東口より徒歩2分</dd>
+            </dl>
+          </div>
+        </article>
+        <article class="store-card">
+          <div class="img-placeholder store-card__image">🏢</div>
+          <div class="store-card__body">
+            <h2 class="store-card__name">店舗c – 池袋店</h2>
+            <dl class="store-card__dl">
+              <dt>住所</dt><dd>東京都豊島区南池袋2-3-4 池袋スクエア3F</dd>
+              <dt>営業時間</dt><dd>10:30 – 22:00（L.O. 21:30）</dd>
+              <dt>電話番号</dt><dd>03-3456-7890</dd>
+              <dt>アクセス</dt><dd>池袋駅東口より徒歩5分</dd>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- NEWS -->
+  <main id="page-news" class="page">
+    <div class="container section">
+      <h1 class="page-title">キャンペーン一覧</h1>
+      <div class="news-grid">
+        <article class="news-card">
+          <div class="img-placeholder news-card__image">🎉</div>
+          <div class="news-card__body">
+            <div class="news-card__meta"><span class="badge badge--orange">開催中</span><time>2024-07-01</time></div>
+            <h2 class="news-card__title">キャンペーンa – 夏の特別ランチ</h2>
+            <p class="news-card__desc">夏限定の特別ランチセットを期間限定でご提供。サラダ・ドリンク付きでお得！</p>
+          </div>
+        </article>
+        <article class="news-card">
+          <div class="img-placeholder news-card__image">🥤</div>
+          <div class="news-card__body">
+            <div class="news-card__meta"><span class="badge badge--orange">開催中</span><time>2024-07-10</time></div>
+            <h2 class="news-card__title">キャンペーンb – ドリンク半額デー</h2>
+            <p class="news-card__desc">毎週水曜日はドリンクが全品半額。ぜひこの機会にお立ち寄りください。</p>
+          </div>
+        </article>
+        <article class="news-card">
+          <div class="img-placeholder news-card__image">🌟</div>
+          <div class="news-card__body">
+            <div class="news-card__meta"><span class="badge badge--dark">近日公開</span><time>2024-07-15</time></div>
+            <h2 class="news-card__title">キャンペーンc – 新メニュー発表</h2>
+            <p class="news-card__desc">秋の新メニューを先行発表！旬の食材を使った新作料理が登場します。</p>
+          </div>
+        </article>
+        <article class="news-card">
+          <div class="img-placeholder news-card__image">🛍</div>
+          <div class="news-card__body">
+            <div class="news-card__meta"><span class="badge badge--dark">近日公開</span><time>2024-07-20</time></div>
+            <h2 class="news-card__title">キャンペーンd – テイクアウト10%OFF</h2>
+            <p class="news-card__desc">テイクアウト注文が10%オフになるキャンペーンを開始予定。</p>
+          </div>
+        </article>
+        <article class="news-card">
+          <div class="img-placeholder news-card__image">🎊</div>
+          <div class="news-card__body">
+            <div class="news-card__meta"><span class="badge badge--muted">予告</span><time>2024-08-01</time></div>
+            <h2 class="news-card__title">キャンペーンe – 周年記念フェア</h2>
+            <p class="news-card__desc">開店5周年を記念した特別フェアを開催。感謝の気持ちを込めた特典をご用意。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div>
+        <p class="footer__logo">SAKURA<span>.</span></p>
+        <p class="footer__tagline">新鮮な素材と丁寧な調理で、<br />毎日の食事をもっと豊かに。</p>
+      </div>
+      <div>
+        <p class="footer__label">リンク</p>
+        <ul class="footer__links">
+          <li><button class="footer__link" data-nav="menu">メニュー</button></li>
+          <li><button class="footer__link" data-nav="stores">店舗情報</button></li>
+          <li><button class="footer__link" data-nav="news">お知らせ</button></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__label">営業時間</p>
+        <p class="footer__hours">月〜金　11:00 – 22:00<br />土・日・祝　10:00 – 23:00</p>
+      </div>
+    </div>
+    <div class="footer__bottom">© 2024 SAKURA. All rights reserved.</div>
+  </footer>
+
+  <script>
+    var pages = ["home","menu","stores","news"];
+    function showPage(id) {
+      pages.forEach(function(p) {
+        document.getElementById("page-"+p).classList.toggle("active", p===id);
+      });
+      document.querySelectorAll(".nav-link").forEach(function(b) {
+        b.classList.toggle("active", b.dataset.nav===id);
+      });
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+    document.querySelectorAll("[data-nav]").forEach(function(el) {
+      el.addEventListener("click", function(){ showPage(el.dataset.nav); });
+    });
+    document.querySelectorAll(".filter-btn").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".filter-btn").forEach(function(b){ b.classList.remove("active"); });
+        btn.classList.add("active");
+        var f = btn.dataset.filter;
+        document.querySelectorAll(".menu-card").forEach(function(c) {
+          c.style.display = (f==="all" || c.dataset.category===f) ? "" : "none";
+        });
+      });
+    });
+  </script>
+</body>
+</html>
