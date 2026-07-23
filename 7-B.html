@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ミッションパネル</title>
+
+<style>
+body{
+    margin:0;
+    background:#6760e6;
+    font-family:sans-serif;
+    text-align:center;
+}
+
+h1{
+    margin-top:30px;
+    background-color: white;
+    border: 3px solid #333;
+}
+.panel{
+    width:600px;
+    max-width:90%;
+    margin:30px auto;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.cell{
+    background:white;
+    border:3px solid #333;
+    height:180px;
+    border-radius: 8px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:20px;
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+
+
+
+
+</style>
+
+</head>
+<body>
+
+<h1>ミッションパネル</h1>
+
+<div class="panel">
+    <div class="cell">レッスンAを　　　　10回クリアしよう8/10</div>
+    <div class="cell">レッスンBを　　　　10回クリアしよう2/10</div>
+    <div class="cell">レッスンCを　　　　10回クリアしよう5/10</div>
+
+    <div class="cell">毒チワワをLv27に　しよう　　　　22/27</div>
+    <div class="cell">ゼニゲバをLv27に　しよう　　　　27/27</div>
+    <div class="cell">ガガンボをLv27に　しよう　　　　26/27</div>
+
+    <div class="cell">嗜みプリンスをLv27にしよう　　　26/27</div>
+    <div class="cell">無垢な白い花をLv27にしよう　　　27/27</div>
+    <div class="cell">ブルドーザーをLv27にしよう　　　20/27</div>
+</div>
+
+
+
+</body>
+</html>

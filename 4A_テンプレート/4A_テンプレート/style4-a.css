@@ -1,0 +1,47 @@
+/* 4-B：プロフィールカードのスタイル */
+/* ここにCSSを書いていきます */
+
+body {
+ background-color:#A5E8E4 ;
+}
+
+.card {
+ background-color:#A5E8B7 ;
+ border: 1px solid #2c2c2c;
+  border-radius: 20px;
+  padding: 32px;
+  width: 300px;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #E94A2B; 
+}
+
+.tag {
+font-size: 13px;
+  color:#E94A2B ;
+}
+
+.bio {
+color:#E94A2B;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #E94A2B;
+ 
+  border: 2px solid #E94A2B;
+  padding: 5px 10px;
+  border-radius: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
+color:#faf8f8e4;
+ transition: all 0.4s ease-in-out;
+}
+.btn:hover{
+transform: scale(1.1); /* ホバー時に1.1倍に拡大 */
+}
+

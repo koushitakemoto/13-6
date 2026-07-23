@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        td,
+        th {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>名前</td>
+            <td>点数</td>
+        </tr>
+        <tr>
+            <td>田中</td>
+            <td>85</td>
+        </tr>
+
+    </table>
+
+ <table>
+    <thead>
+        <tr>
+            <th>名前</th>
+            <th>点数</th>
+        </tr>
+        <tr>
+            <td>田中</td>
+            <td>85</td>
+        </tr>
+    </thead>
+ </table>
+
+
+
+    <table>
+        <tr>
+            <td colspan="2">２列にまたがるセル</td>
+        </tr>
+        <tr>
+            <td>左</td>
+            <td>右</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td rowspan="2">２行にまたがるセル</td>
+            <td>右上</td>
+        </tr>
+        <tr>
+            <td>右下</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td></td>
+            <td>月曜</td>
+            <td>火曜</td>
+            <td>水曜</td>
+        </tr>
+        <tr>
+            <td>１限</td>
+            <td rowspan="2">Webデザイン基礎</td>
+            <td>英語</td>
+            <td>数学</td>
+        </tr>
+        <tr>
+            <td>２限</td>
+            <td>数学</td>
+            <td>情報処理</td>
+        </tr>
+        <tr>
+            <td>昼休み</td>
+            <td colspan="3">ー</td>
+        </tr>
+        <tr>
+            <td>３限</td>
+            <td>C言語</td>
+            <td rowspan="2">体育</td>
+            <td>英語</td>
+        </tr>
+        <tr>
+            <td>４限</td>
+            <td>英語</td>
+            <td>プログラミング</td>
+        </tr>
+    </table>
+</body>
+</html>
+

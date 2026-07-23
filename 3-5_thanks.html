@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>送信完了ページ</title>
+  <style>
+    body {
+      font-family: "Hiragino Sans", sans-serif;
+      max-width: 620px;
+      margin: 60px auto;
+      padding: 0 24px;
+      line-height: 1.75;
+      color: #222;
+      text-align: center;
+    }
+    h1 {
+      font-size: 22px;
+      color: #2d6cdf;
+      margin-bottom: 8px;
+    }
+    .url-box {
+      background: #f0f4ff;
+      border: 1px solid #b0c4f8;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 24px 0;
+      text-align: left;
+      font-family: monospace;
+      font-size: 14px;
+      word-break: break-all;
+    }
+    .url-box .label {
+      font-family: sans-serif;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+    .check {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      text-align: left;
+      font-size: 15px;
+    }
+    .check li {
+      margin-bottom: 6px;
+    }
+    code {
+      background: #f0f0f0;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+    a {
+      display: inline-block;
+      margin-top: 28px;
+      color: #2d6cdf;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>フォームが送信されました</h1>
+  <p>このページが <strong>action 属性で指定した送信先</strong>です。</p>
+
+  <div class="url-box">
+    <div class="label">現在のURL（アドレスバーも確認してください）：</div>
+    <span id="current-url"></span>
+  </div>
+
+  <div class="check">
+    <ul>
+      <li><strong>GETで送信した場合</strong>：URLに <code>?name=...&amp;email=...</code> が付いている</li>
+      <li><strong>POSTで送信した場合</strong>：URLには何も付いていない</li>
+      <li><strong>name属性のないフィールド</strong>：GETのURLに出てこない</li>
+    </ul>
+  </div>
+
+  <a href="3-5_form_demo.html">← デモページに戻る</a>
+
+  <script>
+    document.getElementById('current-url').textContent = location.href;
+  </script>
+
+</body>
+</html>
